@@ -5,5 +5,6 @@
  */
 
 output "security_group_id" {
-  value = "${aws_security_group.security.id}"
+  # There will always be 0 or 1 security groups in the output
+  value = "${aws_security_group.security.*.id}"
 }
