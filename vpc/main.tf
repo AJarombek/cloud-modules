@@ -14,6 +14,20 @@ locals {
   multiple_private_subnets = "${var.private_subnet_count > 1}"
 }
 
+#-----------------------
+# Existing VPC Resources
+#-----------------------
+
+data "aws_availability_zone" "public_subnet_az" {
+  count = "${length(var.public_subnet_azs)}"
+  name = "${var.public_subnet_azs[count.index]}"
+}
+
+data "aws_availability_zone" "private_subnet_az" {
+  count = "${length(var.private_subnet_azs)}"
+  name = "${var.private_subnet_azs[count.index]}"
+}
+
 #----------------------
 # General VPC Resources
 #----------------------
@@ -87,6 +101,7 @@ resource "aws_subnet" "public-subnet" {
   cidr_block = "${local.multiple_public_subnets ?
                     element(var.public_subnet_cidrs, count.index) : var.public_subnet_cidr}"
   vpc_id = "${aws_vpc.vpc.id}"
+  availability_zone = "${data.aws_availability_zone.public_subnet_az.*.name[count.index]}"
 
   tags {
     Name = "${var.tag_name} VPC Public Subnet ${local.multiple_public_subnets ? count.index : 0}"
@@ -136,6 +151,7 @@ resource "aws_subnet" "private-subnet" {
   cidr_block = "${local.multiple_private_subnets ?
                     element(var.private_subnet_cidrs, count.index) : var.private_subnet_cidr}"
   vpc_id = "${aws_vpc.vpc.id}"
+  availability_zone = "${data.aws_availability_zone.private_subnet_az.*.name[count.index]}"
 
   tags {
     Name = "${var.tag_name} VPC Private Subnet ${local.multiple_private_subnets ? count.index : 0}"

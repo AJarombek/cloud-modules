@@ -48,6 +48,12 @@ variable "public_subnet_count" {
   default = 1
 }
 
+variable "public_subnet_azs" {
+  description = "The Availability Zones of the public subnets"
+  type = "list"
+  default = []
+}
+
 variable "public_subnet_cidr" {
   description = "The CIDR for the VPC public subnet"
   default = "10.0.1.0/24"
@@ -77,6 +83,12 @@ variable "public_subnet_sg_rules" {
 variable "private_subnet_count" {
   description = "The number of private subnets in the VPC"
   default = 1
+}
+
+variable "private_subnet_azs" {
+  description = "The Availability Zones of the public subnets"
+  type = "list"
+  default = []
 }
 
 variable "private_subnet_cidr" {
