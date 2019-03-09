@@ -38,7 +38,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = "${var.enable_dns_hostnames}"
 
   tags {
-    Name = "${var.tag_name} VPC"
+    Name = "${var.tag_name}-vpc"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_internet_gateway" "vpc-igw" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags {
-    Name = "${var.tag_name} VPC Internet Gateway"
+    Name = "${var.tag_name}-vpc-internet-gateway"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_network_acl" "network-acl" {
   }
 
   tags {
-    Name = "${var.tag_name} ACL"
+    Name = "${var.tag_name}-acl"
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_vpc_dhcp_options" "vpc-dns-resolver" {
   domain_name = "ec2.internal"
 
   tags {
-    Name = "${var.tag_name} DHCP Options"
+    Name = "${var.tag_name}-dhcp-options"
   }
 }
 
@@ -104,7 +104,9 @@ resource "aws_subnet" "public-subnet" {
   availability_zone = "${data.aws_availability_zone.public_subnet_az.*.name[count.index]}"
 
   tags {
-    Name = "${var.tag_name} VPC Public Subnet ${local.multiple_public_subnets ? count.index : 0}"
+    Name = "${var.public_subnet_custom_names ?
+              var.public_subnet_names[count.index] :
+              "${var.tag_name}-vpc-public-subnet-${local.multiple_public_subnets ? count.index : 0}"}"
   }
 }
 
@@ -117,7 +119,7 @@ resource "aws_route_table" "routing-table-public" {
   }
 
   tags {
-    Name = "${var.tag_name} VPC Public Subnet RT"
+    Name = "${var.tag_name}-vpc-public-subnet-rt"
   }
 }
 
@@ -134,7 +136,7 @@ module "public-subnet-security" {
 
   # Mandatory arguments
   name = "${var.name}-vpc-public-security"
-  tag_name = "${var.tag_name} VPC Public Subnet Security"
+  tag_name = "${var.tag_name}-vpc-public-subnet-security"
   vpc_id = "${aws_vpc.vpc.id}"
 
   # Optional arguments
@@ -154,7 +156,9 @@ resource "aws_subnet" "private-subnet" {
   availability_zone = "${data.aws_availability_zone.private_subnet_az.*.name[count.index]}"
 
   tags {
-    Name = "${var.tag_name} VPC Private Subnet ${local.multiple_private_subnets ? count.index : 0}"
+    Name = "${var.private_subnet_custom_names ?
+              var.private_subnet_names[count.index] :
+              "${var.tag_name}-vpc-private-subnet-${local.multiple_private_subnets ? count.index : 0}"}"
   }
 }
 
@@ -169,7 +173,7 @@ resource "aws_route_table" "routing-table-private" {
   }
 
   tags {
-    Name = "${var.tag_name} VPC Private Subnet RT"
+    Name = "${var.tag_name}-vpc-private-subnet-rt"
   }
 }
 
@@ -200,7 +204,7 @@ module "private-subnet-security" {
 
   # Mandatory arguments
   name = "${var.name}-vpc-private-security"
-  tag_name = "${var.tag_name} VPC Private Subnet Security"
+  tag_name = "${var.tag_name}-vpc-private-subnet-security"
   vpc_id = "${aws_vpc.vpc.id}"
 
   # Optional arguments

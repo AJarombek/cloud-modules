@@ -48,6 +48,17 @@ variable "public_subnet_count" {
   default = 1
 }
 
+variable "public_subnet_custom_names" {
+  description = "Whether or not the public subnets have custom names.  If not, the module will generate names"
+  default = false
+}
+
+variable "public_subnet_names" {
+  description = "A list of names for the public subnets in the VPC"
+  type = "list"
+  default = []
+}
+
 variable "public_subnet_azs" {
   description = "The Availability Zones of the public subnets"
   type = "list"
@@ -83,6 +94,17 @@ variable "public_subnet_sg_rules" {
 variable "private_subnet_count" {
   description = "The number of private subnets in the VPC"
   default = 1
+}
+
+variable "private_subnet_custom_names" {
+  description = "Whether or not the private subnets have custom names.  If not, the module will generate names"
+  default = false
+}
+
+variable "private_subnet_names" {
+  description = "A list of names for the private subnets in the VPC"
+  type = "list"
+  default = []
 }
 
 variable "private_subnet_azs" {
