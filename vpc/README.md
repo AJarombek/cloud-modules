@@ -25,13 +25,13 @@ module "vpc" {
   private_subnet_custom_names = true
   private_subnet_names = ["subnet2", "subnet3"]
 
-  public_subnet_azs = "${local.jarombek_com_public_subnet_azs}"
-  private_subnet_azs = "${local.jarombek_com_private_subnet_azs}"
-  public_subnet_cidrs = "${local.jarombek_com_public_subnet_cidrs}"
-  private_subnet_cidrs = "${local.jarombek_com_private_subnet_cidrs}"
+  public_subnet_azs = "${local.example_public_subnet_azs}"
+  private_subnet_azs = "${local.example_private_subnet_azs}"
+  public_subnet_cidrs = "${local.example_public_subnet_cidrs}"
+  private_subnet_cidrs = "${local.example_private_subnet_cidrs}"
 
   enable_security_groups = true
-  sg_rules = "${local.jarombek_com_vpc_sg_rules}"
+  sg_rules = "${local.example_vpc_sg_rules}"
 }
 ```
 

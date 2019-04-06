@@ -116,7 +116,7 @@ resource "aws_subnet" "public-subnet" {
   tags {
     Name = "${var.public_subnet_custom_names ?
               var.public_subnet_names[count.index] :
-              "${var.tag_name}-vpc-public-subnet-${local.multiple_public_subnets ? count.index : 0}"}"
+              "${var.tag_name}-vpc-public-subnet-${var.private_subnet_count > 1 ? count.index : 0}"}"
   }
 }
 
@@ -155,7 +155,7 @@ resource "aws_subnet" "private-subnet" {
   tags {
     Name = "${var.private_subnet_custom_names ?
               var.private_subnet_names[count.index] :
-              "${var.tag_name}-vpc-private-subnet-${local.multiple_private_subnets ? count.index : 0}"}"
+              "${var.tag_name}-vpc-private-subnet-${var.private_subnet_count > 1 ? count.index : 0}"}"
   }
 }
 
