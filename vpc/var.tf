@@ -35,6 +35,17 @@ variable "enable_dns_hostnames" {
   default = false
 }
 
+variable "enable_security_groups" {
+  description = "Whether or not VPC security groups are used"
+  default = true
+}
+
+variable "sg_rules" {
+  description = "A list of security group rules for the VPC"
+  type = "list"
+  default = []
+}
+
 #---------------------
 # aws_subnet Resources
 #---------------------
@@ -76,17 +87,6 @@ variable "public_subnet_cidrs" {
   default = []
 }
 
-variable "enable_public_security_group" {
-  description = "Whether or not public subnet security groups are used"
-  default = true
-}
-
-variable "public_subnet_sg_rules" {
-  description = "A list of security group rules for the VPC public subnet"
-  type = "list"
-  default = []
-}
-
 #---------------
 # Private Subnet
 #---------------
@@ -120,17 +120,6 @@ variable "private_subnet_cidr" {
 
 variable "private_subnet_cidrs" {
   description = "The CIDR blocks for the VPC private subnets"
-  type = "list"
-  default = []
-}
-
-variable "enable_private_security_group" {
-  description = "Whether or not private subnet security groups are used"
-  default = true
-}
-
-variable "private_subnet_sg_rules" {
-  description = "A list of security group rules for the VPC private subnet"
   type = "list"
   default = []
 }

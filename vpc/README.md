@@ -2,6 +2,39 @@
 
 Module for setting up a VPC and all the appropriate security infrastructure.
 
+### Use Case
+
+```hcl-terraform
+module "vpc" {
+  source = "github.com/ajarombek/terraform-modules//vpc?ref=v0.1.2"
+
+  # Mandatory arguments
+  name = "example-vpc"
+  tag_name = "example-vpc"
+
+  # Optional arguments
+  public_subnet_count = 2
+  private_subnet_count = 2
+  enable_dns_support = true
+  enable_dns_hostnames = true
+  enable_nat_gateway = false
+
+  public_subnet_custom_names = true
+  public_subnet_names = ["subnet0", "subnet1"]
+
+  private_subnet_custom_names = true
+  private_subnet_names = ["subnet2", "subnet3"]
+
+  public_subnet_azs = "${local.jarombek_com_public_subnet_azs}"
+  private_subnet_azs = "${local.jarombek_com_private_subnet_azs}"
+  public_subnet_cidrs = "${local.jarombek_com_public_subnet_cidrs}"
+  private_subnet_cidrs = "${local.jarombek_com_private_subnet_cidrs}"
+
+  enable_security_groups = true
+  sg_rules = "${local.jarombek_com_vpc_sg_rules}"
+}
+```
+
 ### Files
 
 | Filename                 | Description                                                                 |

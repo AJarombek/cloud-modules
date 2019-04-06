@@ -9,9 +9,6 @@ locals {
 
   # The number of private subnets that use a Nat Gateway
   private_subnet_with_nat = "${var.enable_nat_gateway ? var.private_subnet_count : 0}"
-
-  multiple_public_subnets = "${var.public_subnet_count > 1}"
-  multiple_private_subnets = "${var.private_subnet_count > 1}"
 }
 
 #-----------------------
@@ -91,6 +88,19 @@ resource "aws_vpc_dhcp_options_association" "vpc-dns-resolver-association" {
   vpc_id = "${aws_vpc.vpc.id}"
 }
 
+module "vpc-security" {
+  source = "../security-group"
+  enabled = "${var.enable_security_groups}"
+
+  # Mandatory arguments
+  name = "${var.name}-vpc-security"
+  tag_name = "${var.tag_name}-vpc-security"
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  # Optional arguments
+  sg_rules = "${var.sg_rules}"
+}
+
 #--------------
 # Public Subnet
 #--------------
@@ -98,7 +108,7 @@ resource "aws_vpc_dhcp_options_association" "vpc-dns-resolver-association" {
 resource "aws_subnet" "public-subnet" {
   count = "${var.public_subnet_count}"
 
-  cidr_block = "${local.multiple_public_subnets ?
+  cidr_block = "${var.public_subnet_count > 1 ?
                     element(var.public_subnet_cidrs, count.index) : var.public_subnet_cidr}"
   vpc_id = "${aws_vpc.vpc.id}"
   availability_zone = "${data.aws_availability_zone.public_subnet_az.*.name[count.index]}"
@@ -130,19 +140,6 @@ resource "aws_route_table_association" "routing-table-association-public" {
   subnet_id = "${aws_subnet.public-subnet.*.id[count.index]}"
 }
 
-module "public-subnet-security" {
-  source = "../security-group"
-  enabled = "${var.enable_public_security_group}"
-
-  # Mandatory arguments
-  name = "${var.name}-vpc-public-security"
-  tag_name = "${var.tag_name}-vpc-public-subnet-security"
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  # Optional arguments
-  sg_rules = "${var.public_subnet_sg_rules}"
-}
-
 #---------------
 # Private Subnet
 #---------------
@@ -150,7 +147,7 @@ module "public-subnet-security" {
 resource "aws_subnet" "private-subnet" {
   count = "${var.private_subnet_count}"
 
-  cidr_block = "${local.multiple_private_subnets ?
+  cidr_block = "${var.private_subnet_count > 1 ?
                     element(var.private_subnet_cidrs, count.index) : var.private_subnet_cidr}"
   vpc_id = "${aws_vpc.vpc.id}"
   availability_zone = "${data.aws_availability_zone.private_subnet_az.*.name[count.index]}"
@@ -196,17 +193,4 @@ resource "aws_route_table_association" "routing-table-association-private" {
 
   route_table_id = "${aws_route_table.routing-table-private.id}"
   subnet_id = "${aws_subnet.private-subnet.*.id[count.index]}"
-}
-
-module "private-subnet-security" {
-  source = "../security-group"
-  enabled = "${var.enable_private_security_group}"
-
-  # Mandatory arguments
-  name = "${var.name}-vpc-private-security"
-  tag_name = "${var.tag_name}-vpc-private-subnet-security"
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  # Optional arguments
-  sg_rules = "${var.private_subnet_sg_rules}"
 }
