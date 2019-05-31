@@ -32,12 +32,12 @@ variable "vpc_id" {
 
 variable "description" {
   description = "Information about the security group"
-  type = "string"
+  type = string
   default = "Security Group"
 }
 
 variable "sg_rules" {
   description = "A list of security group rules"
-  type = "list"
+  type = list
   default = []
 }

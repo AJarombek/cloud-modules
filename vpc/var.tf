@@ -42,7 +42,7 @@ variable "enable_security_groups" {
 
 variable "sg_rules" {
   description = "A list of security group rules for the VPC"
-  type = "list"
+  type = list
   default = []
 }
 
@@ -66,13 +66,13 @@ variable "public_subnet_custom_names" {
 
 variable "public_subnet_names" {
   description = "A list of names for the public subnets in the VPC"
-  type = "list"
+  type = list
   default = []
 }
 
 variable "public_subnet_azs" {
   description = "The Availability Zones of the public subnets"
-  type = "list"
+  type = list
   default = []
 }
 
@@ -83,7 +83,7 @@ variable "public_subnet_cidr" {
 
 variable "public_subnet_cidrs" {
   description = "The CIDR blocks for the VPC public subnets"
-  type = "list"
+  type = list
   default = []
 }
 
@@ -103,13 +103,13 @@ variable "private_subnet_custom_names" {
 
 variable "private_subnet_names" {
   description = "A list of names for the private subnets in the VPC"
-  type = "list"
+  type = list
   default = []
 }
 
 variable "private_subnet_azs" {
   description = "The Availability Zones of the public subnets"
-  type = "list"
+  type = list
   default = []
 }
 
@@ -120,7 +120,7 @@ variable "private_subnet_cidr" {
 
 variable "private_subnet_cidrs" {
   description = "The CIDR blocks for the VPC private subnets"
-  type = "list"
+  type = list
   default = []
 }
 

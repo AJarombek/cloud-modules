@@ -13,7 +13,7 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.1 Changed naming conventions for the `security-group` and `vpc` modules
 
-> v0.1.2 Fixed security groups in the `vpc` module
+> v0.1.3 Fixed security groups in the `vpc` module
 
 ### Directories
 
