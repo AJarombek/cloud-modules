@@ -23,7 +23,7 @@ resource "aws_security_group" "security" {
 resource "aws_security_group_rule" "security-rule" {
   count = length(var.sg_rules)
 
-  security_group_id = aws_security_group.security.id
+  security_group_id = local.count == 1 ? aws_security_group.security[0].id : null
   type = lookup(var.sg_rules[count.index], "type", "ingress")
 
   from_port = lookup(var.sg_rules[count.index], "from_port", 0)

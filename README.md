@@ -17,7 +17,9 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.4 Upgraded to Terraform 0.12
 
-> v0.1.5 Fix Terraform 0.12 Related Bugs, make custom subnet names mandatory
+> v0.1.5 Fix Terraform 0.12 related bugs, make custom subnet names mandatory
+
+> v0.1.6 Refactor the security-group module logic around enable/disable
 
 ### Directories
 
