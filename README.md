@@ -15,6 +15,10 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.3 Fixed security groups in the `vpc` module
 
+> v0.1.4 Upgraded to Terraform 0.12
+
+> v0.1.5 Fix Terraform 0.12 Related Bugs, make custom subnet names mandatory
+
 ### Directories
 
 | Directory Name    | Description                                                                 |

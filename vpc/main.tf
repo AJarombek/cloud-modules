@@ -34,16 +34,16 @@ resource "aws_vpc" "vpc" {
   enable_dns_support = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
 
-  tags {
-    Name = var.tag_name + "-vpc"
+  tags = {
+    Name = "${var.tag_name}-vpc"
   }
 }
 
 resource "aws_internet_gateway" "vpc-igw" {
   vpc_id = aws_vpc.vpc.id
 
-  tags {
-    Name = var.tag_name + "-vpc-internet-gateway"
+  tags = {
+    Name = "${var.tag_name}-vpc-internet-gateway"
   }
 }
 
@@ -69,7 +69,7 @@ resource "aws_network_acl" "network-acl" {
   }
 
   tags {
-    Name = var.tag_name + "-acl"
+    Name = "${var.tag_name}-acl"
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_vpc_dhcp_options" "vpc-dns-resolver" {
   domain_name = "ec2.internal"
 
   tags {
-    Name = var.tag_name + "-dhcp-options"
+    Name = "${var.tag_name}-dhcp-options"
   }
 }
 
@@ -93,8 +93,8 @@ module "vpc-security" {
   enabled = var.enable_security_groups
 
   # Mandatory arguments
-  name = var.name + "-vpc-security"
-  tag_name = var.tag_name + "-vpc-security"
+  name = "${var.name}-vpc-security"
+  tag_name = "${var.tag_name}-vpc-security"
   vpc_id = aws_vpc.vpc.id
 
   # Optional arguments
@@ -108,15 +108,12 @@ module "vpc-security" {
 resource "aws_subnet" "public-subnet" {
   count = var.public_subnet_count
 
-  cidr_block = var.public_subnet_count > 1 ?
-                    element(var.public_subnet_cidrs, count.index) : var.public_subnet_cidr
+  cidr_block = var.public_subnet_count > 1 ? var.public_subnet_cidrs[count.index] : var.public_subnet_cidr
   vpc_id = aws_vpc.vpc.id
   availability_zone = data.aws_availability_zone.public_subnet_az.*.name[count.index]
 
-  tags {
-    Name = var.public_subnet_custom_names ?
-              var.public_subnet_names[count.index] :
-              var.tag_name + "-vpc-public-subnet-" + var.private_subnet_count > 1 ? count.index : 0
+  tags = {
+    Name = var.public_subnet_names[count.index]
   }
 }
 
@@ -128,8 +125,8 @@ resource "aws_route_table" "routing-table-public" {
     gateway_id = aws_internet_gateway.vpc-igw.id
   }
 
-  tags {
-    Name = var.tag_name + "-vpc-public-subnet-rt"
+  tags = {
+    Name = "${var.tag_name}-vpc-public-subnet-rt"
   }
 }
 
@@ -147,15 +144,12 @@ resource "aws_route_table_association" "routing-table-association-public" {
 resource "aws_subnet" "private-subnet" {
   count = var.private_subnet_count
 
-  cidr_block = var.private_subnet_count > 1 ?
-                    var.private_subnet_cidrs[count.index] : var.private_subnet_cidr
+  cidr_block = var.private_subnet_count > 1 ? var.private_subnet_cidrs[count.index] : var.private_subnet_cidr
   vpc_id = aws_vpc.vpc.id
   availability_zone = data.aws_availability_zone.private_subnet_az.*.name[count.index]
 
-  tags {
-    Name = var.private_subnet_custom_names ?
-              var.private_subnet_names[count.index] :
-              var.tag_name + "-vpc-private-subnet-" + var.private_subnet_count > 1 ? count.index : 0
+  tags = {
+    Name = var.private_subnet_names[count.index]
   }
 }
 
@@ -169,8 +163,8 @@ resource "aws_route_table" "routing-table-private" {
     nat_gateway_id = aws_nat_gateway.nat-gateway.id
   }
 
-  tags {
-    Name = var.tag_name + "-vpc-private-subnet-rt"
+  tags = {
+    Name = "${var.tag_name}-vpc-private-subnet-rt"
   }
 }
 

@@ -15,7 +15,7 @@ resource "aws_security_group" "security" {
   description = var.description
   vpc_id = var.vpc_id
 
-  tags {
+  tags = {
     Name = var.tag_name
   }
 }
