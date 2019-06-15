@@ -160,7 +160,7 @@ resource "aws_route_table" "routing-table-private" {
 
   route {
     cidr_block = var.routing_table_cidr
-    nat_gateway_id = aws_nat_gateway.nat-gateway.id
+    nat_gateway_id = local.nat_gateway == 1 ? aws_nat_gateway.nat-gateway.id : null
   }
 
   tags = {
@@ -185,6 +185,6 @@ resource "aws_nat_gateway" "nat-gateway" {
 resource "aws_route_table_association" "routing-table-association-private" {
   count = local.private_subnet_with_nat
 
-  route_table_id = aws_route_table.routing-table-private.id
+  route_table_id = local.nat_gateway == 1 ? aws_route_table.routing-table-private[0].id : null
   subnet_id = aws_subnet.private-subnet.*.id[count.index]
 }
