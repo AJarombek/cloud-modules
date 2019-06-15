@@ -160,7 +160,7 @@ resource "aws_route_table" "routing-table-private" {
 
   route {
     cidr_block = var.routing_table_cidr
-    nat_gateway_id = local.nat_gateway == 1 ? aws_nat_gateway.nat-gateway.id : null
+    nat_gateway_id = local.nat_gateway == 1 ? aws_nat_gateway.nat-gateway[0].id : null
   }
 
   tags = {
