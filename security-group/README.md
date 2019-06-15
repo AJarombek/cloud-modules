@@ -6,15 +6,15 @@ Module for setting up a Security Group and all the appropriate rules.
 
 ```hcl-terraform
 module "security-group" {
-  source = "github.com/ajarombek/terraform-modules//security-group?ref=v0.1.2"
+  source = "github.com/ajarombek/terraform-modules//security-group?ref=v0.1.6"
 
   # Mandatory arguments
   name = "example-sg"
   tag_name = "example-sg"
-  vpc_id = "${data.existing-vpc.vpc_id}"
+  vpc_id = data.existing-vpc.vpc_id
 
   # Optional arguments
-  sg_rules = "${local.sg_rules}"
+  sg_rules = local.sg_rules
   description = "example sg module"
 }
 ```

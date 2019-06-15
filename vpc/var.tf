@@ -59,11 +59,6 @@ variable "public_subnet_count" {
   default = 1
 }
 
-variable "public_subnet_custom_names" {
-  description = "Whether or not the public subnets have custom names.  If not, the module will generate names"
-  default = false
-}
-
 variable "public_subnet_names" {
   description = "A list of names for the public subnets in the VPC"
   type = list

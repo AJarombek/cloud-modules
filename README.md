@@ -21,6 +21,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.6 Refactor the security-group module logic around enable/disable
 
+> v0.1.7 Refactor the vpc module logic for Terraform 0.12
+
 ### Directories
 
 | Directory Name    | Description                                                                 |

@@ -68,7 +68,7 @@ resource "aws_network_acl" "network-acl" {
     rule_no = 20
   }
 
-  tags {
+  tags = {
     Name = "${var.tag_name}-acl"
   }
 }
@@ -78,7 +78,7 @@ resource "aws_vpc_dhcp_options" "vpc-dns-resolver" {
   domain_name_servers = ["AmazonProvidedDNS"]
   domain_name = "ec2.internal"
 
-  tags {
+  tags = {
     Name = "${var.tag_name}-dhcp-options"
   }
 }
@@ -177,8 +177,8 @@ resource "aws_eip" "nat-elastic-ip" {
 resource "aws_nat_gateway" "nat-gateway" {
   count = local.nat_gateway
 
-  allocation_id = aws_eip.nat-elastic-ip.id
-  subnet_id = aws_subnet.public-subnet.id
+  allocation_id = local.nat_gateway == 1 ? aws_eip.nat-elastic-ip[0].id : null
+  subnet_id = var.public_subnet_count >= 1 ? aws_subnet.public-subnet[0].id : null
   depends_on = ["aws_internet_gateway.vpc-igw"]
 }
 
