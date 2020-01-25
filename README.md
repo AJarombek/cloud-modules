@@ -23,9 +23,12 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.7 Refactor the vpc module logic for Terraform 0.12
 
+> v0.1.8 Initial Release of the `acm-certificate` module
+
 ### Directories
 
 | Directory Name    | Description                                                                 |
 |-------------------|-----------------------------------------------------------------------------|
+| `acm-certificate` | Infrastructure for a DNS validated ACM certificate.                         |
 | `security-group`  | Infrastructure for a configurable security group.                           |
 | `vpc`             | Infrastructure for a configurable virtual private cloud.                    |
