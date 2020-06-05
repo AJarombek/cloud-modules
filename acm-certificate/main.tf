@@ -4,6 +4,11 @@
  * Date: 1/25/2020
  */
 
+locals {
+  count = var.enabled ? 1 : 0
+  cert_validation_count = var.cert_validation_enabled ? 1 : 0
+}
+
 #-------------------
 # Existing Resources
 #-------------------
@@ -19,6 +24,8 @@ data "aws_route53_zone" "zone" {
 #--------------------------
 
 resource "aws_acm_certificate" "certificate" {
+  count = local.count
+
   domain_name = var.acm_domain_name
   validation_method = "DNS"
 
@@ -35,6 +42,8 @@ resource "aws_acm_certificate" "certificate" {
 
 /* Create a validation record used for certificate validation through DNS */
 resource "aws_route53_record" "certificate-validation-record" {
+  count = local.count
+
   name = aws_acm_certificate.certificate.domain_validation_options[0].resource_record_name
   type = aws_acm_certificate.certificate.domain_validation_options[0].resource_record_type
   zone_id = data.aws_route53_zone.zone.id
@@ -43,7 +52,9 @@ resource "aws_route53_record" "certificate-validation-record" {
 }
 
 /* Request a DNS validation certificate */
-resource "aws_acm_certificate_validation" "saints-xctf-wc-cert-validation" {
+resource "aws_acm_certificate_validation" "cert-validation" {
+  count = local.cert_validation_count
+
   certificate_arn = aws_acm_certificate.certificate.arn
   validation_record_fqdns = [aws_route53_record.certificate-validation-record.fqdn]
 }

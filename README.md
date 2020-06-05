@@ -25,6 +25,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.8 Initial Release of the `acm-certificate` module
 
+> v0.1.9 Ability to disable the entire `acm-certificate` module or just the `aws_acm_certificate_validation` resource.
+
 ### Directories
 
 | Directory Name    | Description                                                                 |

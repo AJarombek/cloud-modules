@@ -4,16 +4,26 @@
  * Date: 1/25/2020
  */
 
+variable "enabled" {
+  description = "Whether or not the module is enabled."
+  default = true
+}
+
+variable "cert_validation_enabled" {
+  description = "Whether or not the certificate validation resource is enabled."
+  default = true
+}
+
 #-----------------
 # Naming Resources
 #-----------------
 
 variable "name" {
-  description = "Name to use as a prefix for different resources"
+  description = "Name to use as a prefix for different resources."
 }
 
 variable "tag_name" {
-  description = "Name to use for the Name property in the Tag objects"
+  description = "Name to use for the Name property in the Tag objects."
 }
 
 variable "tag_application" {
@@ -29,16 +39,16 @@ variable "tag_environment" {
 #------------------------------
 
 variable "route53_zone_name" {
-  description = "Route53 zone name for the ACM certificate"
+  description = "Route53 zone name for the ACM certificate."
   type = string
 }
 
 variable "route53_zone_private" {
-  description = "Whether or not the Route53 zone for the ACM certificate is private"
+  description = "Whether or not the Route53 zone for the ACM certificate is private."
   default = false
 }
 
 variable "acm_domain_name" {
-  description = "Domain name for the ACM certificate"
+  description = "Domain name for the ACM certificate."
   type = string
 }
