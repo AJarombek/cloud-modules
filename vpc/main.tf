@@ -113,9 +113,12 @@ resource "aws_subnet" "public-subnet" {
   availability_zone = data.aws_availability_zone.public_subnet_az.*.name[count.index]
   map_public_ip_on_launch = var.public_subnet_map_public_ip_on_launch
 
-  tags = {
-    Name = var.public_subnet_names[count.index]
-  }
+  tags = merge(
+    {
+      Name = var.public_subnet_names[count.index]
+    },
+    var.public_subnet_tags[count.index]
+  )
 }
 
 resource "aws_route_table" "routing-table-public" {
@@ -149,9 +152,12 @@ resource "aws_subnet" "private-subnet" {
   vpc_id = aws_vpc.vpc.id
   availability_zone = data.aws_availability_zone.private_subnet_az.*.name[count.index]
 
-  tags = {
-    Name = var.private_subnet_names[count.index]
-  }
+  tags = merge(
+    {
+      Name = var.private_subnet_names[count.index]
+    },
+    var.private_subnet_tags[count.index]
+  )
 }
 
 resource "aws_route_table" "routing-table-private" {

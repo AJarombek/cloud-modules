@@ -87,6 +87,12 @@ variable "public_subnet_map_public_ip_on_launch" {
   default = false
 }
 
+variable "public_subnet_tags" {
+  description = "Additional tags to add to public subnets"
+  type = list
+  default = []
+}
+
 #---------------
 # Private Subnet
 #---------------
@@ -115,6 +121,12 @@ variable "private_subnet_cidr" {
 
 variable "private_subnet_cidrs" {
   description = "The CIDR blocks for the VPC private subnets"
+  type = list
+  default = []
+}
+
+variable "private_subnet_tags" {
+  description = "Additional tags to add to private subnets"
   type = list
   default = []
 }

@@ -29,6 +29,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.10 Choice to map public IP addresses to instances within a public subnet for the `vpc` module.
 
+> v0.1.11 Custom tags for subnets in the `vpc` module.
+
 ### Directories
 
 | Directory Name    | Description                                                                 |
