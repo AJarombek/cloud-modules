@@ -111,6 +111,7 @@ resource "aws_subnet" "public-subnet" {
   cidr_block = var.public_subnet_count > 1 ? var.public_subnet_cidrs[count.index] : var.public_subnet_cidr
   vpc_id = aws_vpc.vpc.id
   availability_zone = data.aws_availability_zone.public_subnet_az.*.name[count.index]
+  map_public_ip_on_launch = var.public_subnet_map_public_ip_on_launch
 
   tags = {
     Name = var.public_subnet_names[count.index]

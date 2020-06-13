@@ -82,6 +82,11 @@ variable "public_subnet_cidrs" {
   default = []
 }
 
+variable "public_subnet_map_public_ip_on_launch" {
+  description = "Whether instances in the public subnets should be assigned public IP addresses on launch"
+  default = false
+}
+
 #---------------
 # Private Subnet
 #---------------

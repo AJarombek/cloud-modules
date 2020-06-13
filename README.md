@@ -27,6 +27,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.9 Ability to disable the entire `acm-certificate` module or just the `aws_acm_certificate_validation` resource.
 
+> v0.1.10 Choice to map public IP addresses to instances within a public subnet for the `vpc` module.
+
 ### Directories
 
 | Directory Name    | Description                                                                 |
