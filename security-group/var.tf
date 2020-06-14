@@ -18,8 +18,10 @@ variable "name" {
   description = "Name to use as a prefix for different resources"
 }
 
-variable "tag_name" {
-  description = "Name to use for the Name property in the Tag objects"
+variable "tags" {
+  description = "Map of tags for the security group"
+  type = map
+  default = {}
 }
 
 #-----------------------------

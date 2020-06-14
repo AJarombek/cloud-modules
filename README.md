@@ -31,6 +31,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.11 Custom tags for subnets in the `vpc` module.
 
+> v0.1.12 `vpc` module subnet ID output.
+
 ### Directories
 
 | Directory Name    | Description                                                                 |

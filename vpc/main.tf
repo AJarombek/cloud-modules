@@ -186,7 +186,7 @@ resource "aws_nat_gateway" "nat-gateway" {
 
   allocation_id = local.nat_gateway == 1 ? aws_eip.nat-elastic-ip[0].id : null
   subnet_id = var.public_subnet_count >= 1 ? aws_subnet.public-subnet[0].id : null
-  depends_on = ["aws_internet_gateway.vpc-igw"]
+  depends_on = [aws_internet_gateway.vpc-igw]
 }
 
 resource "aws_route_table_association" "routing-table-association-private" {

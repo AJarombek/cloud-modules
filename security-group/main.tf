@@ -15,9 +15,7 @@ resource "aws_security_group" "security" {
   description = var.description
   vpc_id = var.vpc_id
 
-  tags = {
-    Name = var.tag_name
-  }
+  tags = var.tags
 }
 
 resource "aws_security_group_rule" "security-rule" {
