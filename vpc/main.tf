@@ -94,7 +94,11 @@ module "vpc-security" {
 
   # Mandatory arguments
   name = "${var.name}-vpc-security"
-  tag_name = "${var.tag_name}-vpc-security"
+
+  tags = {
+    Name = "${var.tag_name}-vpc-security"
+  }
+
   vpc_id = aws_vpc.vpc.id
 
   # Optional arguments
