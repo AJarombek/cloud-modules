@@ -89,7 +89,7 @@ resource "aws_vpc_dhcp_options_association" "vpc-dns-resolver-association" {
 }
 
 module "vpc-security" {
-  source = "../security-group"
+  source = "..\/..\/security-group"
   enabled = var.enable_security_groups
 
   # Mandatory arguments

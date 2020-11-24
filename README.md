@@ -1,6 +1,12 @@
-# terraform-modules
+# cloud-modules
+
+> Formerly *terraform-modules*
 
 ### Overview
+
+Monorepo containing multiple cloud infrastructure modules, packages, and libraries.
+
+**terraform-modules**
 
 Terraform modules to help create reusable infrastructure.  Utilized by the
 [global-aws-infrastructure](https://github.com/AJarombek/global-aws-infrastructure),
@@ -33,10 +39,12 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.1.12 `vpc` module subnet ID output.
 
+> v0.2.0 Turn repo into monorepo containing multiple modules & libraries.
+
 ### Directories
 
-| Directory Name    | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| `acm-certificate` | Infrastructure for a DNS validated ACM certificate.                         |
-| `security-group`  | Infrastructure for a configurable security group.                           |
-| `vpc`             | Infrastructure for a configurable virtual private cloud.                    |
+| Directory Name              | Description                                                                 |
+|-----------------------------|-----------------------------------------------------------------------------|
+| `aws-test-functions`        | Boto3 reusable Python functions for testing AWS infrastructure.             |
+| `kubernetes-test-functions` | Kubernetes client reusable Go functions for testing K8s infrastructure.     |
+| `terraform-modules`         | Reusable Terraform modules for building AWS infrastructure.                 |
