@@ -7,8 +7,9 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 ### Directories
 
-| Directory Name    | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| `acm-certificate` | Infrastructure for a DNS validated ACM certificate.                         |
-| `security-group`  | Infrastructure for a configurable security group.                           |
-| `vpc`             | Infrastructure for a configurable virtual private cloud.                    |
+| Directory Name         | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `acm-certificate`      | Infrastructure for a DNS validated ACM certificate.                         |
+| `api-gateway-endpoint` | Infrastructure for an endpoint in an API Gateway REST API.                  |
+| `security-group`       | Infrastructure for a configurable security group.                           |
+| `vpc`                  | Infrastructure for a configurable virtual private cloud.                    |
