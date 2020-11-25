@@ -7,7 +7,7 @@
 resource "aws_api_gateway_resource" "resource" {
   rest_api_id = var.rest_api_id
   parent_id = var.parent_path_id
-  path_part = var.parent_path
+  path_part = var.path
 }
 
 resource "aws_api_gateway_method" "method" {

@@ -6,7 +6,7 @@ Module for setting up a VPC and all the appropriate security infrastructure.
 
 ```hcl-terraform
 module "vpc" {
-  source = "github.com/ajarombek/terraform-modules//vpc?ref=v0.1.6"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/vpc?ref=v0.1.6"
 
   # Mandatory arguments
   name = "example-vpc"

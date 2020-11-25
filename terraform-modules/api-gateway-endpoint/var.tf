@@ -14,8 +14,8 @@ variable "parent_path_id" {
   type = string
 }
 
-variable "parent_path" {
-  description = "The path which is a direct parent for this endpoint in the REST API."
+variable "path" {
+  description = "The path for this endpoint in the REST API."
   type = string
 }
 
