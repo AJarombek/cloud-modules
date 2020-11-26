@@ -41,6 +41,13 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.0 Turn repo into monorepo containing multiple modules & libraries.
 
+> v0.2.1 Initialize the aws_test_functions Python package for helping test AWS infrastructure with `boto3`.  Add the 
+> `api-gateway-endpoint` Terraform module.
+
+> v0.2.2 Fix for the naming of the aws_test_functions Python package.
+
+> v0.2.3 Additional API Gateway methods in aws_test_functions.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |

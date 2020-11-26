@@ -7,7 +7,7 @@ A Python package containing reusable functions for testing AWS infrastructure.  
 
 | Filename             | Description                                                                                  |
 |----------------------|----------------------------------------------------------------------------------------------|
-| `src`                | Source code for the `aws-test-functions` Python package.                                     |
+| `src`                | Source code for the `aws_test_functions` Python package.                                     |
 | `Pipfile`            | Used to install dependencies and create a virtual environment with `pip`.                    |
 | `requirements.txt`   | Used to install dependencies and create a virtual environment with `pipenv`.                 |
 | `setup.py`           | Build script to create a Python package.                                                     |
