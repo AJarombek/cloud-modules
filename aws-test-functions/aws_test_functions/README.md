@@ -7,6 +7,7 @@ Utility Python functions for writing tests with the `boto3` SDK.
 | Filename                   | Description                                                                         |
 |----------------------------|-------------------------------------------------------------------------------------|
 | `APIGateway.py`            | Helper functions for testing AWS API Gateway.                                       |
+| `CloudWatchLogs.py`        | Helper functions for testing logs created by AWS CloudWatch.                        |
 | `EC2.py`                   | Helper functions for testing AWS EC2 instances.                                     |
 | `ECS.py`                   | Helper functions for testing AWS Elastic Container Service.                         |
 | `IAM.py`                   | Helper functions for testing AWS IAM roles and policies.                            |

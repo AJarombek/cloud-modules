@@ -6,7 +6,7 @@ Date: 9/14/2019
 
 import boto3
 
-ec2 = boto3.client('ec2')
+ec2 = boto3.client('ec2', region_name='us-east-1')
 
 
 class SecurityGroup:
