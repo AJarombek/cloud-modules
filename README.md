@@ -48,6 +48,10 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.3 Additional API Gateway methods in aws_test_functions.
 
+> v0.2.4 Added Kubernetes Go module.
+
+> v0.2.5 Kubernetes module name change.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |
