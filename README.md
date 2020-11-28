@@ -52,6 +52,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.5 Kubernetes module name change.
 
+> v0.2.6 Initial release of the `lambda` Terraform module.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |

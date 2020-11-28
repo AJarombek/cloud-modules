@@ -3,7 +3,7 @@
 // Author: Andrew Jarombek
 // Date: 11/28/2020
 
-module github.com/ajarombek/cloud-modules/k8s-test-functions
+module github.com/ajarombek/cloud-modules/kubernetes-test-functions
 
 go 1.15
 
