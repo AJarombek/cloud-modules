@@ -41,7 +41,9 @@ class Lambda:
         test_case.assertEqual(handler, lambda_function.get('Handler'))
         test_case.assertEqual(memory_size, lambda_function.get('MemorySize'))
         test_case.assertEqual(timeout, lambda_function.get('Timeout'))
-        test_case.assertDictEqual(env_vars, lambda_function.get('Environment').get('Variables'))
+
+        if env_vars is not None:
+            test_case.assertDictEqual(env_vars, lambda_function.get('Environment').get('Variables'))
 
     @staticmethod
     def lambda_function_in_subnets(function_name: str, subnets: list) -> bool:
