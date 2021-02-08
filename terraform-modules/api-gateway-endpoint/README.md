@@ -6,7 +6,7 @@ Module for setting up an endpoint in an API Gateway REST API.  The endpoint is b
 
 ```hcl-terraform
 module "api-gateway-endpoint" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/api-gateway-endpoint?ref=v0.1.8"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/api-gateway-endpoint?ref=v0.2.6"
 
   # Mandatory arguments
   rest_api_id = aws_api_gateway_rest_api.example.id
@@ -24,6 +24,8 @@ module "api-gateway-endpoint" {
   validate_request_body = true
   validate_request_parameters = false
   content_handling = "CONVERT_TO_TEXT"
+  authorization = "CUSTOM"
+  authorizer_id = aws_api_gateway_authorizer.example.id
 }
 ```
 

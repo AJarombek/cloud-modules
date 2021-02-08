@@ -40,3 +40,7 @@ go get k8s.io/apimachinery@kubernetes-1.17.0
 | `main.go`                | Functions to assist Kubernetes tests.                                                        |
 | `go.mod`                 | Go module definition and dependency specification.                                           |
 | `go.sum`                 | Versions of modules installed as dependencies for this Go module.                            |
+
+### Resources
+
+1. [go.mod reference](https://golang.org/ref/mod)

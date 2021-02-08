@@ -62,3 +62,20 @@ variable "content_handling" {
   type = string
   default = null
 }
+
+variable "authorization" {
+  description = "Type of authorization used for the API Gateway method."
+  type = string
+  default = "NONE"
+
+  validation {
+    condition = can(regex("NONE|CUSTOM|AWS_IAM|COGNITO_USER_POOLS", var.authorization))
+    error_message = "The type of authorization specified is invalid."
+  }
+}
+
+variable "authorizer_id" {
+  description = "The custom authorizer id to use when the authorizer type is CUSTOM."
+  type = string
+  default = null
+}

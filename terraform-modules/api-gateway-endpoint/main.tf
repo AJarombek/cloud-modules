@@ -16,7 +16,8 @@ resource "aws_api_gateway_method" "method" {
   request_validator_id = aws_api_gateway_request_validator.request-validator.id
 
   http_method = var.http_method
-  authorization = "NONE"
+  authorization = var.authorization
+  authorizer_id = var.authorizer_id
 }
 
 resource "aws_api_gateway_request_validator" "request-validator" {
