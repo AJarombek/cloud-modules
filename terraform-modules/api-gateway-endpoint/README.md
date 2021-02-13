@@ -14,7 +14,10 @@ module "api-gateway-endpoint" {
   path = "example"
   request_validator_name = "example-validator"
   
-  request_template = file("request.vm")
+  request_template = {
+    "application/json" = file("request.vm")
+  }
+
   response_template = file("response.vm")
 
   lambda_invoke_arn = aws_lambda_function.example.invoke_arn

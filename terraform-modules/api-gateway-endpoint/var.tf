@@ -42,9 +42,10 @@ variable "request_validator_name" {
   type = string
 }
 
-variable "request_template" {
-  description = "Velocity template for the incoming request.  Converts the request into JSON for the lambda function."
-  type = string
+variable "request_templates" {
+  description = "Velocity templates for the incoming request.  Each template is matched to a MIME type."
+  type = map(any)
+  default = {}
 }
 
 variable "response_template" {

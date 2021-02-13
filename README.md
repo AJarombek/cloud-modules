@@ -1,5 +1,7 @@
 # cloud-modules
 
+![Maintained Label](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=for-the-badge)
+
 > Formerly *terraform-modules*
 
 ### Overview
@@ -55,6 +57,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 > v0.2.6 Initial release of the `lambda` Terraform module.
 
 > v0.2.7 Lambda authorizer configuration for API Gateway endpoint Terraform module.
+
+> v0.2.8 API Gateway endpoint allows for multiple request templates.
 
 ### Directories
 

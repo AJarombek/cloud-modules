@@ -49,9 +49,7 @@ resource "aws_api_gateway_integration" "integration" {
 
   content_handling = var.content_handling
 
-  request_templates = {
-    "application/json" = var.request_template
-  }
+  request_templates = var.request_templates
 }
 
 resource "aws_api_gateway_integration_response" "integration-response" {
