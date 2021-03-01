@@ -60,6 +60,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.8 API Gateway endpoint allows for multiple request templates.
 
+> v0.2.9 Kubernetes module function for checking whether a Deployment is error free.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |

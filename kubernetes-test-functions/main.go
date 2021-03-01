@@ -41,6 +41,7 @@ func ExpectedDeploymentCount(t *testing.T, clientset *kubernetes.Clientset, name
 	}
 }
 
+// DeploymentExists checks if a Deployment object exists in a certain namespace.
 func DeploymentExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string)  {
 	deployment, err := clientset.AppsV1().Deployments(namespace).Get(name, v1meta.GetOptions{})
 
@@ -135,6 +136,8 @@ func ConditionStatusMet(t *testing.T, conditions []v1.DeploymentCondition,
 	}
 }
 
+// ReplicaCountAsExpected performs appropriate logging when comparing the number of replicas for a deployment and its 
+// expected value.
 func ReplicaCountAsExpected(t *testing.T, expectedReplicas int32, actualReplicas int32, description string)  {
 	if expectedReplicas == actualReplicas {
 		t.Logf(
@@ -153,7 +156,59 @@ func ReplicaCountAsExpected(t *testing.T, expectedReplicas int32, actualReplicas
 	}
 }
 
-// namespaceExists determines if a Namespace exists and is active in a cluster.
+// DeploymentStatusCheck determines if a Deployment object is running as expected.  Commonly used to make sure there
+// aren't any errors in the Deployment.
+func DeploymentStatusCheck(
+	t *testing.T,
+	clientset *kubernetes.Clientset,
+	name string,
+	namespace string,
+	isAvailable bool,
+	isProgressing bool,
+	expectedTotalReplicas int32,
+	expectedAvailableReplicas int32,
+	expectedReadyReplicas int32,
+	expectedUnavailableReplicas int32,
+) {
+	deployment, err := clientset.AppsV1().Deployments(namespace).Get(name, v1meta.GetOptions{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	deploymentConditions := deployment.Status.Conditions
+
+	var availableStatus v1core.ConditionStatus
+	if isAvailable {
+		availableStatus = "True"
+	} else {
+		availableStatus = "False"
+	}
+
+	var progressingStatus v1core.ConditionStatus
+	if isProgressing {
+		progressingStatus = "True"
+	} else {
+		progressingStatus = "False"
+	}
+
+	ConditionStatusMet(t, deploymentConditions, "Available", availableStatus)
+	ConditionStatusMet(t, deploymentConditions, "Progressing", progressingStatus)
+
+	totalReplicas := deployment.Status.Replicas
+	ReplicaCountAsExpected(t, expectedTotalReplicas, totalReplicas, "total number of replicas")
+
+	availableReplicas := deployment.Status.AvailableReplicas
+	ReplicaCountAsExpected(t, expectedAvailableReplicas, availableReplicas, "number of available replicas")
+
+	readyReplicas := deployment.Status.ReadyReplicas
+	ReplicaCountAsExpected(t, expectedReadyReplicas, readyReplicas, "number of ready replicas")
+
+	unavailableReplicas := deployment.Status.UnavailableReplicas
+	ReplicaCountAsExpected(t, expectedUnavailableReplicas, unavailableReplicas, "number of unavailable replicas")
+}
+
+// NamespaceExists determines if a Namespace exists and is active in a cluster.
 func NamespaceExists(t *testing.T, clientset *kubernetes.Clientset, name string) {
 	namespace, err := clientset.CoreV1().Namespaces().Get(name, v1meta.GetOptions{})
 
@@ -169,7 +224,7 @@ func NamespaceExists(t *testing.T, clientset *kubernetes.Clientset, name string)
 	}
 }
 
-// namespaceExists determines if a ServiceAccount exists in a cluster.
+// ServiceAccountExists determines if a ServiceAccount exists in a cluster.
 func ServiceAccountExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
 	serviceAccount, err := clientset.CoreV1().ServiceAccounts(namespace).Get(name, v1meta.GetOptions{})
 
@@ -185,7 +240,7 @@ func ServiceAccountExists(t *testing.T, clientset *kubernetes.Clientset, name st
 	}
 }
 
-// roleExists determines if a Role exists in a cluster in a specific namespace.
+// RoleExists determines if a Role exists in a cluster in a specific namespace.
 func RoleExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
 	role, err := clientset.RbacV1().Roles(namespace).Get(name, v1meta.GetOptions{})
 
