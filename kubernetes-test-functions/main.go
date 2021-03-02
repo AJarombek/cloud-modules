@@ -303,3 +303,109 @@ func ClusterRoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, nam
 		t.Errorf("A ClusterRoleBinding object named '%v' does not exist.", name)
 	}
 }
+
+// NamespaceServiceCount determines if the expected number of Service objects exist in the a namespace.
+func NamespaceServiceCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedServiceCount int) {
+	services, err := clientset.CoreV1().Services(namespace).List(v1meta.ListOptions{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var serviceCount = len(services.Items)
+	if serviceCount == expectedServiceCount {
+		t.Logf(
+			"A single Service object exists in the '%s' namespace.  Expected %v, got %v.",
+			namespace,
+			expectedServiceCount,
+			serviceCount,
+		)
+	} else {
+		t.Errorf(
+			"An unexpected number of Service objects exist in the '%s' namespace.  Expected %v, got %v.",
+			namespace,
+			expectedServiceCount,
+			serviceCount,
+		)
+	}
+}
+
+// ServiceExists determines if a Service exists in the a specific namespace.
+func ServiceExists(
+	t *testing.T,
+	clientset *kubernetes.Clientset,
+	name string,
+	namespace string,
+	serviceType v1core.ServiceType,
+) {
+	service, err := clientset.CoreV1().Services(namespace).Get(name, v1meta.GetOptions{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if service.Spec.Type == serviceType {
+		t.Logf(
+			"A '%s' Service object exists of the expected type.  Expected %v, got %v.",
+			name,
+			serviceType,
+			service.Spec.Type,
+		)
+	} else {
+		t.Errorf(
+			"A '%s' Service object does not exist of the expected type.  Expected %v, got %v.",
+			name,
+			serviceType,
+			service.Spec.Type,
+		)
+	}
+}
+
+// NamespaceIngressCount determines if the number of 'Ingress' objects in a namespace is as expected.
+func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedIngressCount int) {
+	ingresses, err := clientset.NetworkingV1beta1().Ingresses(namespace).List(v1meta.ListOptions{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var ingressCount = len(ingresses.Items)
+	if ingressCount == expectedIngressCount {
+		t.Logf(
+			"A single Ingress object exists in the '%s' namespace.  Expected %v, got %v.",
+			namespace,
+			expectedIngressCount,
+			ingressCount,
+		)
+	} else {
+		t.Errorf(
+			"An unexpected number of Ingress objects exist in the '%s' namespace.  Expected %v, got %v.",
+			namespace,
+			expectedIngressCount,
+			ingressCount,
+		)
+	}
+}
+
+// IngressExists determines if an ingress object exists in a specific namespace
+func IngressExists(t *testing.T, clientset *kubernetes.Clientset, namespace string, name string) {
+	ingress, err := clientset.NetworkingV1beta1().Ingresses(namespace).Get(name, v1meta.GetOptions{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if ingress.Name == name {
+		t.Logf(
+			"Ingress exists with the expected name.  Expected %v, got %v.",
+			name,
+			ingress.Name,
+		)
+	} else {
+		t.Errorf(
+			"Ingress does not exist with the expected name.  Expected %v, got %v.",
+			name,
+			ingress.Name,
+		)
+	}
+}
