@@ -5,9 +5,9 @@
  */
 
 output "acm_id" {
-  value = aws_acm_certificate.certificate[0].id
+  value = aws_acm_certificate.certificate.id
 }
 
 output "acm_arn" {
-  value = aws_acm_certificate.certificate[0].arn
+  value = aws_acm_certificate.certificate.arn
 }

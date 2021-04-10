@@ -4,11 +4,6 @@
  * Date: 1/25/2020
  */
 
-variable "enabled" {
-  description = "Whether or not the module is enabled."
-  default = true
-}
-
 variable "cert_validation_enabled" {
   description = "Whether or not the certificate validation resource is enabled."
   default = true

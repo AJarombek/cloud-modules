@@ -19,6 +19,7 @@ module "acm-certificate" {
 
   # Optional arguments
   route53_zone_private = false
+  cert_validation_enabled = true
 }
 ```
 

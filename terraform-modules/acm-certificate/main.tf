@@ -5,7 +5,6 @@
  */
 
 locals {
-  count = var.enabled ? 1 : 0
   cert_validation_count = var.cert_validation_enabled ? 1 : 0
 }
 
@@ -24,8 +23,6 @@ data "aws_route53_zone" "zone" {
 #--------------------------
 
 resource "aws_acm_certificate" "certificate" {
-  count = local.count
-
   domain_name = var.acm_domain_name
   validation_method = "DNS"
 
