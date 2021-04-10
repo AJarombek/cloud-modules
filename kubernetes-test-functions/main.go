@@ -387,7 +387,7 @@ func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namesp
 	}
 }
 
-// IngressExists determines if an ingress object exists in a specific namespace
+// IngressExists determines if an ingress object exists in a specific namespace.
 func IngressExists(t *testing.T, clientset *kubernetes.Clientset, namespace string, name string) {
 	ingress, err := clientset.NetworkingV1beta1().Ingresses(namespace).Get(name, v1meta.GetOptions{})
 

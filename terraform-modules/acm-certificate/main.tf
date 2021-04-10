@@ -40,14 +40,20 @@ resource "aws_acm_certificate" "certificate" {
   }
 }
 
-/* Create a validation record used for certificate validation through DNS */
-resource "aws_route53_record" "certificate-validation-record" {
-  count = local.count
+resource "aws_route53_record" "validation-record" {
+  for_each = {
+    for dvo in aws_acm_certificate.certificate.domain_validation_options: dvo.domain_name => {
+      name = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type = dvo.resource_record_type
+    }
+  }
 
-  name = aws_acm_certificate.certificate[0].domain_validation_options[0].resource_record_name
-  type = aws_acm_certificate.certificate[0].domain_validation_options[0].resource_record_type
+  allow_overwrite = true
+  name = each.value.name
+  type = each.value.type
   zone_id = data.aws_route53_zone.zone.id
-  records = [aws_acm_certificate.certificate[0].domain_validation_options[0].resource_record_value]
+  records = [each.value.record]
   ttl = 60
 }
 
@@ -55,6 +61,6 @@ resource "aws_route53_record" "certificate-validation-record" {
 resource "aws_acm_certificate_validation" "cert-validation" {
   count = local.cert_validation_count
 
-  certificate_arn = aws_acm_certificate.certificate[0].arn
-  validation_record_fqdns = [aws_route53_record.certificate-validation-record[0].fqdn]
+  certificate_arn = aws_acm_certificate.certificate.arn
+  validation_record_fqdns = [for record in aws_route53_record.validation-record: record.fqdn]
 }

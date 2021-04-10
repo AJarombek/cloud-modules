@@ -62,6 +62,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.9 Kubernetes module function for checking whether a Deployment is error free.
 
+> v0.2.10 ACM Certificate updated for newer Terraform AWS module versions.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |
