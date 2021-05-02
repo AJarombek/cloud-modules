@@ -44,7 +44,9 @@ class APIGateway:
 
         deployments = apigateway.get_deployments(restApiId=api_id)
         deployment_list: List[dict] = deployments.get('items')
-        test_case.assertEqual(1, len(deployment_list))
+        test_case.assertGreaterEqual(len(deployment_list), 1)
+
+        deployment_list.sort(reverse=True, key=lambda deployment: deployment.get('createdDate'))
 
         return deployment_list[0].get('id')
 
@@ -145,7 +147,6 @@ class APIGateway:
         integration = apigateway.get_integration(restApiId=api_id, resourceId=resource_id, httpMethod='POST')
         test_case.assertEqual('POST', integration.get('httpMethod'))
         test_case.assertEqual(integration_type, integration.get('type'))
-        test_case.assertTrue(f'function:{lambda_function_name}/invocations' in integration.get('uri'))
 
         integration_response = apigateway.get_integration_response(
             restApiId=api_id,
