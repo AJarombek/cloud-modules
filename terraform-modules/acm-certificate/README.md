@@ -6,20 +6,23 @@ Module for setting up an Amazon Certificate Manager (ACM) certificate.  The Cert
 
 ```hcl-terraform
 module "acm-certificate" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/acm-certificate?ref=v0.1.8"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/acm-certificate?ref=v0.2.13"
 
   # Mandatory arguments
   name = "example-acm"
-  tag_name = "example-acm"
-  tag_application = "sample-app"
-  tag_environment = "sandbox"
-  
   route53_zone_name = "sample.com."
   acm_domain_name = "*.sample.com"
 
   # Optional arguments
   route53_zone_private = false
   cert_validation_enabled = true
+  
+  tags = {
+    Name = "example-acm"
+    Application = "sample-app"
+    Environment = "sandbox"
+    Terraform = local.terraform_tag
+  }
 }
 ```
 

@@ -26,11 +26,7 @@ resource "aws_acm_certificate" "certificate" {
   domain_name = var.acm_domain_name
   validation_method = "DNS"
 
-  tags = {
-    Name = var.tag_name
-    Environment = var.tag_environment
-    Application = var.tag_application
-  }
+  tags = var.tags
 
   lifecycle {
     create_before_destroy = true

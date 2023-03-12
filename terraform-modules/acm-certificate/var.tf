@@ -6,6 +6,7 @@
 
 variable "cert_validation_enabled" {
   description = "Whether or not the certificate validation resource is enabled."
+  type = bool
   default = true
 }
 
@@ -15,18 +16,13 @@ variable "cert_validation_enabled" {
 
 variable "name" {
   description = "Name to use as a prefix for different resources."
+  type = string
 }
 
-variable "tag_name" {
-  description = "Name to use for the Name property in the Tag objects."
-}
-
-variable "tag_application" {
-  description = "Application the resource belongs to.  Used in the Tag objects."
-}
-
-variable "tag_environment" {
-  description = "Environment the resource is deployed in.  Used in the Tag objects."
+variable "tags" {
+  description = "Map of tags for the security group"
+  type = map
+  default = {}
 }
 
 #------------------------------
@@ -40,6 +36,7 @@ variable "route53_zone_name" {
 
 variable "route53_zone_private" {
   description = "Whether or not the Route53 zone for the ACM certificate is private."
+  type = bool
   default = false
 }
 
