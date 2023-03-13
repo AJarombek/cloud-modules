@@ -6,7 +6,7 @@ Module for setting up an Amazon Certificate Manager (ACM) certificate.  The Cert
 
 ```hcl-terraform
 module "acm-certificate" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/acm-certificate?ref=v0.2.13"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/acm-certificate?ref=v0.2.14"
 
   # Mandatory arguments
   name = "example-acm"

@@ -7,7 +7,7 @@
 # Needed since terraform modules do not support the 'count' property
 variable "enabled" {
   description = "Whether or not the security group should be created"
-  default = true
+  default     = true
 }
 
 #-----------------
@@ -20,8 +20,8 @@ variable "name" {
 
 variable "tags" {
   description = "Map of tags for the security group"
-  type = map
-  default = {}
+  type        = map(any)
+  default     = {}
 }
 
 #-----------------------------
@@ -34,12 +34,12 @@ variable "vpc_id" {
 
 variable "description" {
   description = "Information about the security group"
-  type = string
-  default = "Security Group"
+  type        = string
+  default     = "Security Group"
 }
 
 variable "sg_rules" {
   description = "A list of security group rules"
-  type = list
-  default = []
+  type        = list(any)
+  default     = []
 }

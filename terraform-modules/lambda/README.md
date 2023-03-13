@@ -6,7 +6,7 @@ Module for creating an AWS Lambda function with cloudwatch logs and provisioned 
 
 ```hcl-terraform
 module "lambda" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/lambda?ref=v0.2.13"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/lambda?ref=v0.2.14"
 
   # Mandatory arguments
   function_name = "example"

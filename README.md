@@ -66,6 +66,8 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
  
 > v0.2.13 Update Tag Variables in Terraform modules.
 
+> v0.2.14 VPC Terraform module internal path fix and additional tags.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |

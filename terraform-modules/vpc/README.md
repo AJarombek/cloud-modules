@@ -6,7 +6,7 @@ Module for setting up a VPC and all the appropriate security infrastructure.
 
 ```hcl-terraform
 module "vpc" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/vpc?ref=v0.1.6"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/vpc?ref=v0.2.14"
 
   # Mandatory arguments
   name = "example-vpc"
@@ -29,6 +29,12 @@ module "vpc" {
 
   enable_security_groups = true
   sg_rules = local.example_vpc_sg_rules
+  
+  additional_tags = {
+    Environment = "sandbox"
+    Application = "example"
+    Terraform = local.terraform_tag
+  }
 }
 ```
 

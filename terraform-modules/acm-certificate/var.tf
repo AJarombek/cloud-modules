@@ -6,8 +6,8 @@
 
 variable "cert_validation_enabled" {
   description = "Whether or not the certificate validation resource is enabled."
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 #-----------------
@@ -16,13 +16,13 @@ variable "cert_validation_enabled" {
 
 variable "name" {
   description = "Name to use as a prefix for different resources."
-  type = string
+  type        = string
 }
 
 variable "tags" {
   description = "Map of tags for the security group"
-  type = map
-  default = {}
+  type        = map(any)
+  default     = {}
 }
 
 #------------------------------
@@ -31,16 +31,16 @@ variable "tags" {
 
 variable "route53_zone_name" {
   description = "Route53 zone name for the ACM certificate."
-  type = string
+  type        = string
 }
 
 variable "route53_zone_private" {
   description = "Whether or not the Route53 zone for the ACM certificate is private."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "acm_domain_name" {
   description = "Domain name for the ACM certificate."
-  type = string
+  type        = string
 }

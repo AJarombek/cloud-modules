@@ -6,7 +6,7 @@ Module for setting up a Security Group and all the appropriate rules.
 
 ```hcl-terraform
 module "security-group" {
-  source = "github.com/ajarombek/cloud-modules//terraform-modules/security-group?ref=v0.2.13"
+  source = "github.com/ajarombek/cloud-modules//terraform-modules/security-group?ref=v0.2.14"
 
   # Mandatory arguments
   name = "example-sg"

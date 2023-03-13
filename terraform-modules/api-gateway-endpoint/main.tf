@@ -6,25 +6,25 @@
 
 resource "aws_api_gateway_resource" "resource" {
   rest_api_id = var.rest_api_id
-  parent_id = var.parent_path_id
-  path_part = var.path
+  parent_id   = var.parent_path_id
+  path_part   = var.path
 }
 
 resource "aws_api_gateway_method" "method" {
-  rest_api_id = var.rest_api_id
-  resource_id = aws_api_gateway_resource.resource.id
+  rest_api_id          = var.rest_api_id
+  resource_id          = aws_api_gateway_resource.resource.id
   request_validator_id = aws_api_gateway_request_validator.request-validator.id
 
-  http_method = var.http_method
+  http_method   = var.http_method
   authorization = var.authorization
   authorizer_id = var.authorizer_id
 }
 
 resource "aws_api_gateway_request_validator" "request-validator" {
-  rest_api_id = var.rest_api_id
-  validate_request_body = var.validate_request_body
+  rest_api_id                 = var.rest_api_id
+  validate_request_body       = var.validate_request_body
   validate_request_parameters = var.validate_request_parameters
-  name = var.request_validator_name
+  name                        = var.request_validator_name
 }
 
 resource "aws_api_gateway_method_response" "method-response" {
@@ -45,7 +45,7 @@ resource "aws_api_gateway_integration" "integration" {
   integration_http_method = "POST"
 
   type = "AWS"
-  uri = var.lambda_invoke_arn
+  uri  = var.lambda_invoke_arn
 
   content_handling = var.content_handling
 

@@ -11,9 +11,9 @@ locals {
 resource "aws_security_group" "security" {
   count = local.count
 
-  name = var.name
+  name        = var.name
   description = var.description
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   tags = var.tags
 }
@@ -22,11 +22,11 @@ resource "aws_security_group_rule" "security-rule" {
   count = length(var.sg_rules)
 
   security_group_id = local.count == 1 ? aws_security_group.security[0].id : null
-  type = lookup(var.sg_rules[count.index], "type", "ingress")
+  type              = lookup(var.sg_rules[count.index], "type", "ingress")
 
   from_port = lookup(var.sg_rules[count.index], "from_port", 0)
-  to_port = lookup(var.sg_rules[count.index], "to_port", 0)
-  protocol = lookup(var.sg_rules[count.index], "protocol", "-1")
+  to_port   = lookup(var.sg_rules[count.index], "to_port", 0)
+  protocol  = lookup(var.sg_rules[count.index], "protocol", "-1")
 
   cidr_blocks = [lookup(var.sg_rules[count.index], "cidr_blocks", "")]
 }
