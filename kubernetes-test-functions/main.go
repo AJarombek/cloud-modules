@@ -7,6 +7,7 @@
 package kubernetes_test_functions
 
 import (
+	"context"
 	v1 "k8s.io/api/apps/v1"
 	v1core "k8s.io/api/core/v1"
 	v1meta "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,7 +18,7 @@ import (
 
 // ExpectedDeploymentCount determines if the number of 'Deployment' objects in a namespace is as expected.
 func ExpectedDeploymentCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedCount int) {
-	deployments, err := clientset.AppsV1().Deployments(namespace).List(v1meta.ListOptions{})
+	deployments, err := clientset.AppsV1().Deployments(namespace).List(context.TODO(), v1meta.ListOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -42,8 +43,8 @@ func ExpectedDeploymentCount(t *testing.T, clientset *kubernetes.Clientset, name
 }
 
 // DeploymentExists checks if a Deployment object exists in a certain namespace.
-func DeploymentExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string)  {
-	deployment, err := clientset.AppsV1().Deployments(namespace).Get(name, v1meta.GetOptions{})
+func DeploymentExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
+	deployment, err := clientset.AppsV1().Deployments(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -136,9 +137,9 @@ func ConditionStatusMet(t *testing.T, conditions []v1.DeploymentCondition,
 	}
 }
 
-// ReplicaCountAsExpected performs appropriate logging when comparing the number of replicas for a deployment and its 
+// ReplicaCountAsExpected performs appropriate logging when comparing the number of replicas for a deployment and its
 // expected value.
-func ReplicaCountAsExpected(t *testing.T, expectedReplicas int32, actualReplicas int32, description string)  {
+func ReplicaCountAsExpected(t *testing.T, expectedReplicas int32, actualReplicas int32, description string) {
 	if expectedReplicas == actualReplicas {
 		t.Logf(
 			"Jenkins Deployment has expected %v.  Expected %v, got %v.",
@@ -170,7 +171,7 @@ func DeploymentStatusCheck(
 	expectedReadyReplicas int32,
 	expectedUnavailableReplicas int32,
 ) {
-	deployment, err := clientset.AppsV1().Deployments(namespace).Get(name, v1meta.GetOptions{})
+	deployment, err := clientset.AppsV1().Deployments(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -210,7 +211,7 @@ func DeploymentStatusCheck(
 
 // NamespaceExists determines if a Namespace exists and is active in a cluster.
 func NamespaceExists(t *testing.T, clientset *kubernetes.Clientset, name string) {
-	namespace, err := clientset.CoreV1().Namespaces().Get(name, v1meta.GetOptions{})
+	namespace, err := clientset.CoreV1().Namespaces().Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -226,7 +227,7 @@ func NamespaceExists(t *testing.T, clientset *kubernetes.Clientset, name string)
 
 // ServiceAccountExists determines if a ServiceAccount exists in a cluster.
 func ServiceAccountExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
-	serviceAccount, err := clientset.CoreV1().ServiceAccounts(namespace).Get(name, v1meta.GetOptions{})
+	serviceAccount, err := clientset.CoreV1().ServiceAccounts(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -242,7 +243,7 @@ func ServiceAccountExists(t *testing.T, clientset *kubernetes.Clientset, name st
 
 // RoleExists determines if a Role exists in a cluster in a specific namespace.
 func RoleExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
-	role, err := clientset.RbacV1().Roles(namespace).Get(name, v1meta.GetOptions{})
+	role, err := clientset.RbacV1().Roles(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -257,8 +258,8 @@ func RoleExists(t *testing.T, clientset *kubernetes.Clientset, name string, name
 }
 
 // RoleBindingExists tests that a RoleBinding object with a given name exists in a specific namespace.
-func RoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string)  {
-	role, err := clientset.RbacV1().RoleBindings(namespace).Get(name, v1meta.GetOptions{})
+func RoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, name string, namespace string) {
+	role, err := clientset.RbacV1().RoleBindings(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -274,7 +275,7 @@ func RoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, name strin
 
 // ClusterRoleExists tests that a ClusterRole object with a given name exists.
 func ClusterRoleExists(t *testing.T, clientset *kubernetes.Clientset, name string) {
-	role, err := clientset.RbacV1().ClusterRoles().Get(name, v1meta.GetOptions{})
+	role, err := clientset.RbacV1().ClusterRoles().Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -289,8 +290,8 @@ func ClusterRoleExists(t *testing.T, clientset *kubernetes.Clientset, name strin
 }
 
 // ClusterRoleBindingExists tests that a ClusterRoleBinding object with a given name exists.
-func ClusterRoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, name string)  {
-	role, err := clientset.RbacV1().ClusterRoleBindings().Get(name, v1meta.GetOptions{})
+func ClusterRoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, name string) {
+	role, err := clientset.RbacV1().ClusterRoleBindings().Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -306,7 +307,7 @@ func ClusterRoleBindingExists(t *testing.T, clientset *kubernetes.Clientset, nam
 
 // NamespaceServiceCount determines if the expected number of Service objects exist in the a namespace.
 func NamespaceServiceCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedServiceCount int) {
-	services, err := clientset.CoreV1().Services(namespace).List(v1meta.ListOptions{})
+	services, err := clientset.CoreV1().Services(namespace).List(context.TODO(), v1meta.ListOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -338,7 +339,7 @@ func ServiceExists(
 	namespace string,
 	serviceType v1core.ServiceType,
 ) {
-	service, err := clientset.CoreV1().Services(namespace).Get(name, v1meta.GetOptions{})
+	service, err := clientset.CoreV1().Services(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -363,7 +364,7 @@ func ServiceExists(
 
 // NamespaceIngressCount determines if the number of 'Ingress' objects in a namespace is as expected.
 func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedIngressCount int) {
-	ingresses, err := clientset.NetworkingV1beta1().Ingresses(namespace).List(v1meta.ListOptions{})
+	ingresses, err := clientset.NetworkingV1beta1().Ingresses(namespace).List(context.TODO(), v1meta.ListOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -389,7 +390,7 @@ func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namesp
 
 // IngressExists determines if an ingress object exists in a specific namespace.
 func IngressExists(t *testing.T, clientset *kubernetes.Clientset, namespace string, name string) {
-	ingress, err := clientset.NetworkingV1beta1().Ingresses(namespace).Get(name, v1meta.GetOptions{})
+	ingress, err := clientset.NetworkingV1beta1().Ingresses(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
