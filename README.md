@@ -68,6 +68,10 @@ Terraform modules to help create reusable infrastructure.  Utilized by the
 
 > v0.2.14 VPC Terraform module internal path fix and additional tags.
 
+> v0.2.15 Kubernetes module upgraded to Go 1.18 and Kubernetes dependencies updated.
+
+> v0.2.17 Fix Ingress tests in the Kubernetes module.
+
 ### Directories
 
 | Directory Name              | Description                                                                 |

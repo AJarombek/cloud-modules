@@ -364,7 +364,7 @@ func ServiceExists(
 
 // NamespaceIngressCount determines if the number of 'Ingress' objects in a namespace is as expected.
 func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namespace string, expectedIngressCount int) {
-	ingresses, err := clientset.NetworkingV1beta1().Ingresses(namespace).List(context.TODO(), v1meta.ListOptions{})
+	ingresses, err := clientset.NetworkingV1().Ingresses(namespace).List(context.TODO(), v1meta.ListOptions{})
 
 	if err != nil {
 		panic(err.Error())
@@ -390,7 +390,7 @@ func NamespaceIngressCount(t *testing.T, clientset *kubernetes.Clientset, namesp
 
 // IngressExists determines if an ingress object exists in a specific namespace.
 func IngressExists(t *testing.T, clientset *kubernetes.Clientset, namespace string, name string) {
-	ingress, err := clientset.NetworkingV1beta1().Ingresses(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
+	ingress, err := clientset.NetworkingV1().Ingresses(namespace).Get(context.TODO(), name, v1meta.GetOptions{})
 
 	if err != nil {
 		panic(err.Error())
