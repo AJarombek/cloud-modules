@@ -9,7 +9,7 @@ In an implementing modules `go.mod` file:
 
 ```go.mod
 require(
-    github.com/ajarombek/cloud-modules/k8s-test-functions v0.2.18
+    github.com/ajarombek/cloud-modules/k8s-test-functions v0.2.17
 )
 ```
 

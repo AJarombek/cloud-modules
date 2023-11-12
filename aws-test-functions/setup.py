@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='aws_test_functions',
-    version='0.2.2',
+    version='0.2.15',
     author='Andrew Jarombek',
     author_email='andrew@jarombek.com',
     description='A Python package containing reusable functions for testing AWS infrastructure',
@@ -20,5 +20,5 @@ setuptools.setup(
     url='https://github.com/AJarombek/cloud-modules/aws-test-functions',
     packages=setuptools.find_packages(include=['aws_test_functions', 'aws_test_functions.*']),
     classifiers=[],
-    python_requires='>=3.8'
+    python_requires='>=3.11'
 )
