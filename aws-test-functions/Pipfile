@@ -8,10 +8,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+black = ">=23.9.1"
 
 [packages]
-boto3 = ">=1.16.25"
+boto3 = ">=1.28.84"
 boto3_type_annotations = ">=0.3.1"
 
 [requires]
-python_version = "3.8"
+python_version = "3.11"
