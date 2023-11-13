@@ -6,11 +6,10 @@ Date: 9/14/2019
 
 import boto3
 
-ec2 = boto3.client('ec2', region_name='us-east-1')
+ec2 = boto3.client("ec2", region_name="us-east-1")
 
 
 class SecurityGroup:
-
     @staticmethod
     def get_security_groups(name: str) -> list:
         """
@@ -19,12 +18,9 @@ class SecurityGroup:
         :return: A list of Security Group objects (dictionaries)
         """
         security_groups = ec2.describe_security_groups(
-            Filters=[{
-                'Name': 'tag:Name',
-                'Values': [name]
-            }]
+            Filters=[{"Name": "tag:Name", "Values": [name]}]
         )
-        return security_groups.get('SecurityGroups')
+        return security_groups.get("SecurityGroups")
 
     @staticmethod
     def get_security_group(name: str) -> dict:
@@ -34,12 +30,9 @@ class SecurityGroup:
         :return: A dictionary containing data about a Security Group.
         """
         security_groups_response = ec2.describe_security_groups(
-            Filters=[{
-                'Name': 'tag:Name',
-                'Values': [name]
-            }]
+            Filters=[{"Name": "tag:Name", "Values": [name]}]
         )
-        security_groups = security_groups_response.get('SecurityGroups')
+        security_groups = security_groups_response.get("SecurityGroups")
 
         if security_groups is None:
             return {}
@@ -47,7 +40,9 @@ class SecurityGroup:
             return security_groups[0]
 
     @staticmethod
-    def validate_sg_rule_cidr(rule: dict, protocol: str, from_port: int, to_port: int, cidr: str) -> bool:
+    def validate_sg_rule_cidr(
+        rule: dict, protocol: str, from_port: int, to_port: int, cidr: str
+    ) -> bool:
         """
         Determine if a security group rule which opens connections
         from (ingress) or to (egress) a CIDR block exists as expected.
@@ -59,24 +54,28 @@ class SecurityGroup:
         :return: True if the security group rule exists as expected, False otherwise
         """
         if from_port == 0:
-            from_port_valid = 'FromPort' not in rule.keys()
+            from_port_valid = "FromPort" not in rule.keys()
         else:
-            from_port_valid = rule.get('FromPort') == from_port
+            from_port_valid = rule.get("FromPort") == from_port
 
         if to_port == 0:
-            to_port_valid = 'ToPort' not in rule.keys()
+            to_port_valid = "ToPort" not in rule.keys()
         else:
-            to_port_valid = rule.get('ToPort') == to_port
+            to_port_valid = rule.get("ToPort") == to_port
 
-        return all([
-            rule.get('IpProtocol') == protocol,
-            from_port_valid,
-            to_port_valid,
-            rule.get('IpRanges')[0].get('CidrIp') == cidr
-        ])
+        return all(
+            [
+                rule.get("IpProtocol") == protocol,
+                from_port_valid,
+                to_port_valid,
+                rule.get("IpRanges")[0].get("CidrIp") == cidr,
+            ]
+        )
 
     @staticmethod
-    def validate_sg_rule_source(rule: dict, protocol: str, from_port: int, to_port: int, source_sg: str) -> bool:
+    def validate_sg_rule_source(
+        rule: dict, protocol: str, from_port: int, to_port: int, source_sg: str
+    ) -> bool:
         """
         Determine if a security group rule which opens connections
         from a different source security group exists as expected.
@@ -87,9 +86,11 @@ class SecurityGroup:
         :param source_sg: The destination security group identifier
         :return: True if the security group rule exists as expected, False otherwise
         """
-        return all([
-            rule.get('IpProtocol') == protocol,
-            rule.get('FromPort') == from_port,
-            rule.get('ToPort') == to_port,
-            rule.get('UserIdGroupPairs')[0].get('GroupId') == source_sg
-        ])
+        return all(
+            [
+                rule.get("IpProtocol") == protocol,
+                rule.get("FromPort") == from_port,
+                rule.get("ToPort") == to_port,
+                rule.get("UserIdGroupPairs")[0].get("GroupId") == source_sg,
+            ]
+        )

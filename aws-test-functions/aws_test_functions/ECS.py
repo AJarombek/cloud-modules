@@ -6,11 +6,10 @@ Date: 4/28/2019
 
 import boto3
 
-ecs = boto3.client('ecs')
+ecs = boto3.client("ecs")
 
 
 class ECS:
-
     @staticmethod
     def get_clusters(names: list) -> list:
         """
@@ -18,7 +17,7 @@ class ECS:
         :param names: The names of ECS clusters on AWS
         :return: a list of clusters
         """
-        return ecs.describe_clusters(clusters=names).get('clusters')
+        return ecs.describe_clusters(clusters=names).get("clusters")
 
     @staticmethod
     def get_cluster(name: str) -> dict:
@@ -38,17 +37,14 @@ class ECS:
         :return: a list of tasks
         """
         task_arn_list = ecs.list_tasks(
-            cluster=cluster_name,
-            family=family,
-            desiredStatus='RUNNING'
+            cluster=cluster_name, family=family, desiredStatus="RUNNING"
         )
 
         task_list = ecs.describe_tasks(
-            cluster=cluster_name,
-            tasks=task_arn_list.get('taskArns')
+            cluster=cluster_name, tasks=task_arn_list.get("taskArns")
         )
 
-        return task_list.get('tasks')
+        return task_list.get("tasks")
 
     @staticmethod
     def get_services(cluster_name: str, service_names: list) -> list:
@@ -58,11 +54,8 @@ class ECS:
         :param service_names: A list containing names of services
         :return: a list of services
         """
-        services = ecs.describe_services(
-            cluster=cluster_name,
-            services=service_names
-        )
-        return services.get('services')
+        services = ecs.describe_services(cluster=cluster_name, services=service_names)
+        return services.get("services")
 
     @staticmethod
     def get_service(cluster_name: str, service_name: str) -> dict:

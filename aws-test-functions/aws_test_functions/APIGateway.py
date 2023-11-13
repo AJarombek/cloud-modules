@@ -10,11 +10,10 @@ from typing import List, Optional
 import boto3
 from boto3_type_annotations.apigateway import Client as APIGatewayClient
 
-apigateway: APIGatewayClient = boto3.client('apigateway', region_name='us-east-1')
+apigateway: APIGatewayClient = boto3.client("apigateway", region_name="us-east-1")
 
 
 class APIGateway:
-
     @staticmethod
     def rest_api_exists(test_case: unittest.TestCase, api_name: str) -> str:
         """
@@ -24,14 +23,16 @@ class APIGateway:
         :return: The REST API's id.
         """
         apis: dict = apigateway.get_rest_apis()
-        api_list: List[dict] = apis.get('items')
-        matching_apis = [api for api in api_list if api.get('name') == api_name]
+        api_list: List[dict] = apis.get("items")
+        matching_apis = [api for api in api_list if api.get("name") == api_name]
         test_case.assertEqual(1, len(matching_apis))
 
-        return matching_apis[0].get('id')
+        return matching_apis[0].get("id")
 
     @staticmethod
-    def deployment_exists(test_case: unittest.TestCase, api_name: str, api_id: str = None) -> str:
+    def deployment_exists(
+        test_case: unittest.TestCase, api_name: str, api_id: str = None
+    ) -> str:
         """
         Test that a deployment of an AWS API Gateway REST API exists.
         :param test_case: Instance of a unittest test case.  This object is used to make assertions.
@@ -43,15 +44,19 @@ class APIGateway:
             api_id = APIGateway.rest_api_exists(test_case, api_name)
 
         deployments = apigateway.get_deployments(restApiId=api_id)
-        deployment_list: List[dict] = deployments.get('items')
+        deployment_list: List[dict] = deployments.get("items")
         test_case.assertGreaterEqual(len(deployment_list), 1)
 
-        deployment_list.sort(reverse=True, key=lambda deployment: deployment.get('createdDate'))
+        deployment_list.sort(
+            reverse=True, key=lambda deployment: deployment.get("createdDate")
+        )
 
-        return deployment_list[0].get('id')
+        return deployment_list[0].get("id")
 
     @staticmethod
-    def stage_exists(test_case: unittest.TestCase, api_name: str, stage_name: str) -> None:
+    def stage_exists(
+        test_case: unittest.TestCase, api_name: str, stage_name: str
+    ) -> None:
         """
         Test that a deployment of an AWS API Gateway REST API exists.
         :param test_case: Instance of a unittest test case.  This object is used to make assertions.
@@ -62,12 +67,16 @@ class APIGateway:
         deployment_id = APIGateway.deployment_exists(test_case, api_name, api_id)
 
         stages = apigateway.get_stages(restApiId=api_id, deploymentId=deployment_id)
-        stage_list: List[dict] = stages.get('item')
-        matching_stages = [stage for stage in stage_list if stage.get('stageName') == stage_name]
+        stage_list: List[dict] = stages.get("item")
+        matching_stages = [
+            stage for stage in stage_list if stage.get("stageName") == stage_name
+        ]
         test_case.assertEqual(1, len(matching_stages))
 
     @staticmethod
-    def api_has_expected_paths(test_case: unittest.TestCase, api_name: str, expected_paths: List[str]) -> List[str]:
+    def api_has_expected_paths(
+        test_case: unittest.TestCase, api_name: str, expected_paths: List[str]
+    ) -> List[str]:
         """
         Test that an AWS API Gateway REST API has certain paths.
         :param test_case: Instance of a unittest test case.  This object is used to make assertions.
@@ -77,13 +86,15 @@ class APIGateway:
         """
         api_id = APIGateway.rest_api_exists(test_case, api_name)
         resources = apigateway.get_resources(restApiId=api_id)
-        paths = [path.get('path') for path in resources.get('items')]
+        paths = [path.get("path") for path in resources.get("items")]
         paths.sort()
         test_case.assertListEqual(expected_paths, paths)
         return paths
 
     @staticmethod
-    def get_api_resource(test_case: unittest.TestCase, api_name: str, resource_path: str) -> Optional[str]:
+    def get_api_resource(
+        test_case: unittest.TestCase, api_name: str, resource_path: str
+    ) -> Optional[str]:
         """
         Get the ID for a resource in an API Gateway REST API.
         :param test_case: Instance of a unittest test case.  This object is used to make assertions.
@@ -93,19 +104,30 @@ class APIGateway:
         """
         api_id = APIGateway.rest_api_exists(test_case, api_name)
         resources = apigateway.get_resources(restApiId=api_id)
-        paths: List[dict] = [path for path in resources.get('items') if path.get('path') == resource_path]
+        paths: List[dict] = [
+            path for path in resources.get("items") if path.get("path") == resource_path
+        ]
 
         if len(paths) > 0:
-            return paths[0].get('id')
+            return paths[0].get("id")
         else:
             return None
 
     @staticmethod
-    def api_endpoint_as_expected(test_case: unittest.TestCase, api_name: str, path: str, validator_name: str,
-                                 lambda_function_name: str, http_method: str = 'POST', authorization_type: str = 'NONE',
-                                 validate_request_body: bool = False, validate_request_parameters: bool = False,
-                                 method_status_code: str = '200', integration_status_code: str = '200',
-                                 integration_type: str = 'AWS') -> None:
+    def api_endpoint_as_expected(
+        test_case: unittest.TestCase,
+        api_name: str,
+        path: str,
+        validator_name: str,
+        lambda_function_name: str,
+        http_method: str = "POST",
+        authorization_type: str = "NONE",
+        validate_request_body: bool = False,
+        validate_request_parameters: bool = False,
+        method_status_code: str = "200",
+        integration_status_code: str = "200",
+        integration_type: str = "AWS",
+    ) -> None:
         """
         Test an endpoint in an API Gateway REST API.
         :param test_case: Instance of a unittest test case.  This object is used to make assertions.
@@ -125,33 +147,46 @@ class APIGateway:
         resource_id = APIGateway.get_api_resource(test_case, api_name, path)
         test_case.assertIsNotNone(resource_id)
 
-        method = apigateway.get_method(restApiId=api_id, resourceId=resource_id, httpMethod=http_method)
-        test_case.assertEqual(http_method, method.get('httpMethod'))
-        test_case.assertEqual(authorization_type, method.get('authorizationType'))
+        method = apigateway.get_method(
+            restApiId=api_id, resourceId=resource_id, httpMethod=http_method
+        )
+        test_case.assertEqual(http_method, method.get("httpMethod"))
+        test_case.assertEqual(authorization_type, method.get("authorizationType"))
 
         request_validators = apigateway.get_request_validators(restApiId=api_id)
-        validator = [validator for validator in request_validators.get('items') if
-                     validator.get('name') == validator_name][0]
+        validator = [
+            validator
+            for validator in request_validators.get("items")
+            if validator.get("name") == validator_name
+        ][0]
         test_case.assertIsNotNone(validator)
-        test_case.assertEqual(validate_request_body, validator.get('validateRequestBody'))
-        test_case.assertEqual(validate_request_parameters, validator.get('validateRequestParameters'))
+        test_case.assertEqual(
+            validate_request_body, validator.get("validateRequestBody")
+        )
+        test_case.assertEqual(
+            validate_request_parameters, validator.get("validateRequestParameters")
+        )
 
         method_response = apigateway.get_method_response(
             restApiId=api_id,
             resourceId=resource_id,
             httpMethod=http_method,
-            statusCode=method_status_code
+            statusCode=method_status_code,
         )
-        test_case.assertEqual(method_status_code, method_response.get('statusCode'))
+        test_case.assertEqual(method_status_code, method_response.get("statusCode"))
 
-        integration = apigateway.get_integration(restApiId=api_id, resourceId=resource_id, httpMethod='POST')
-        test_case.assertEqual('POST', integration.get('httpMethod'))
-        test_case.assertEqual(integration_type, integration.get('type'))
+        integration = apigateway.get_integration(
+            restApiId=api_id, resourceId=resource_id, httpMethod="POST"
+        )
+        test_case.assertEqual("POST", integration.get("httpMethod"))
+        test_case.assertEqual(integration_type, integration.get("type"))
 
         integration_response = apigateway.get_integration_response(
             restApiId=api_id,
             resourceId=resource_id,
-            httpMethod='POST',
-            statusCode=integration_status_code
+            httpMethod="POST",
+            statusCode=integration_status_code,
         )
-        test_case.assertEqual(integration_status_code, integration_response.get('statusCode'))
+        test_case.assertEqual(
+            integration_status_code, integration_response.get("statusCode")
+        )

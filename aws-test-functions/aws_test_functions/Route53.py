@@ -6,11 +6,10 @@ Date: 4/28/2019
 
 import boto3
 
-route53 = boto3.client('route53')
+route53 = boto3.client("route53")
 
 
 class Route53:
-
     @staticmethod
     def get_record(zone_name: str, record_name: str, record_type: str) -> dict:
         """
@@ -26,9 +25,9 @@ class Route53:
             HostedZoneId=hosted_zone_id,
             StartRecordName=record_name,
             StartRecordType=record_type,
-            MaxItems='1'
+            MaxItems="1",
         )
-        return record_sets.get('ResourceRecordSets')[0]
+        return record_sets.get("ResourceRecordSets")[0]
 
     @staticmethod
     def get_hosted_zone_id(name: str) -> str:
@@ -38,5 +37,7 @@ class Route53:
         :return: A string representing the Hosted Zone ID
         :exception: Throws an IndexError if the Hosted Zone does not exist
         """
-        hosted_zone = route53.list_hosted_zones_by_name(DNSName=name, MaxItems='1').get('HostedZones')[0]
-        return hosted_zone.get('Id')
+        hosted_zone = route53.list_hosted_zones_by_name(DNSName=name, MaxItems="1").get(
+            "HostedZones"
+        )[0]
+        return hosted_zone.get("Id")
